@@ -33,12 +33,19 @@ function initialize() {
     '<h3>' + site.name + '</h3>' +
     '<p>' + site.elevation + 'ft</p>' +
     '<p>' + site.description + '</p>' +
-    '<ul>' +
-    '<li>Group Site: ' + site.groupSites + '</li>' +
-    '<li>Individual Sites: ' + site.sites + '</li> '+
-    '<li>Sites: ' + site.numOfSites + '</li>' +
-    '<li>Cost per Site: ' + site.perSiteCost + '</li>' +
-    '</ul>' +
+    '<ul>';
+    if(site.sites) {
+      infoWindowString += '<li>Individual Sites: ' + site.numOfSites + '</li>' +
+      '<li>Individual Site Cost per Night: ' + site.perSiteCost + '</li>' +
+      '<li>Individual Site Accepts Reservations?: ' + site.sitesAcceptReservations + '</li>';
+    } 
+    if(site.groupSites) {
+      infoWindowString += '<li>Group Sites: ' + site.numOfGroupSites + '</li>' +
+      '<li>Group Site Size: ' + site.sizeOfGroupSites + '</li>' +
+      '<li>Group Site Cost: ' + site.perGroupSiteCost + '</li>' +
+      '<li>Group Site Accepts Reservations: ' + site.groupSitesAcceptReservations + '</li>';
+    }
+    infoWindowString += '</ul>' +
     '</div>';
 
     infowindow = new google.maps.InfoWindow({
