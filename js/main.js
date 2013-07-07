@@ -1,37 +1,54 @@
+/*global google:false, document:false, camp:false, window:false */
 function initialize() {
-  var mapOptions = {
+  var i, clearInfoWindows, infoWindows, mapOptions, map, infoWindowString;
+
+  infoWindows = [];
+  clearInfoWindows = function () {
+    console.log('clearing infowindows');
+    for (i = 0; i < infoWindows.length; i++) {
+      infoWindows[i].close();
+    }
+    infoWindows = [];
+  };
+
+  mapOptions = {
     center: new google.maps.LatLng(37.836, -119.46),
     zoom: 9,
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
-  var map = new google.maps.Map(document.getElementById("map-canvas"),
+  map = new google.maps.Map(document.getElementById("map-canvas"),
     mapOptions);
 
-  camp.data.forEach(function(site) {
-    var marker = new google.maps.Marker({
+  camp.data.forEach(function (site) {
+    var marker, infowindow;
+    marker = new google.maps.Marker({
       position: site.location,
       map: map,
       title: site.name
     });
 
-    var infoWindowString = '<div id="content">'+
-    '<h3>'+site.name+'</h3>'+
-    '<p>'+site.elevation+'ft</p>'+
-    '<p>'+site.description+'</p>'+
-    '<ul>'+
-    '<li>Group Site: '+site.groupSite+'</li>'+
-    '<li>Individual Sites: '+site.sites+'</li>'+
-    '<li>Sites: '+site.numOfSites+'</li>'+
-    '<li>Cost per Site: '+site.perSiteCost+'</li>'+
-    '</ul>'+
+    infoWindowString = '<div id="content">' +
+    '<div id="siteNotice">' +
+    '</div>' +
+    '<h3>' + site.name + '</h3>' +
+    '<p>' + site.elevation + 'ft</p>' +
+    '<p>' + site.description + '</p>' +
+    '<ul>' +
+    '<li>Group Site: ' + site.groupSites + '</li>' +
+    '<li>Individual Sites: ' + site.sites + '</li> '+
+    '<li>Sites: ' + site.numOfSites + '</li>' +
+    '<li>Cost per Site: ' + site.perSiteCost + '</li>' +
+    '</ul>' +
     '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
+    infowindow = new google.maps.InfoWindow({
       content: infoWindowString
 
     });
 
-    google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'click', function () {
+      clearInfoWindows();
+      infoWindows.push(infowindow);
       infowindow.open(map, marker);
     });
   });
