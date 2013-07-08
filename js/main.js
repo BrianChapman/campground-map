@@ -13,7 +13,7 @@ function initialize() {
 
   mapOptions = {
     center: new google.maps.LatLng(37.836, -119.46),
-    zoom: 9,
+    zoom: 8,
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
   map = new google.maps.Map(document.getElementById("map-canvas"),
@@ -26,6 +26,10 @@ function initialize() {
       map: map,
       title: site.name
     });
+    if(site.groupSites) {
+      marker.setIcon('image/tent-icon.png');
+      marker.setShadow('image/tent-icon.png');
+    };
 
     infoWindowString = '<div id="content">' +
     '<div id="siteNotice">' +
