@@ -22,7 +22,7 @@ function initialize() {
   camp.data.forEach(function (site) {
     var marker, infowindow;
     marker = new google.maps.Marker({
-      position: site.location,
+      position: new google.maps.LatLng(site.location[0],site.location[1]),
       map: map,
       title: site.name
     });
